@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="WPFGauges.Analog.AnalogGauge"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPFGauges.Analog"
+             xmlns:converters="clr-namespace:WPFGauges.Converters"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:AnalogGauge, IsDesignTimeCreatable=True}"
+             d:DesignHeight="100" d:DesignWidth="100">
+    <UserControl.Resources>
+        <converters:FindCenterPoint x:Key="FindCenterPoint" />
+        <converters:FindCenterCoordinate x:Key="FindCenterCoordinate" />
+        <converters:FindCenterAsSize x:Key="FindCenterAsSize" />
+        <local:GaugeAngleToPoint x:Key="GaugeAngleToPoint" />
+        <local:GaugeAngleToLargeArc x:Key="GaugeAngleToLargeArc" />
+    </UserControl.Resources>
+    <Viewbox Stretch="Uniform" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid x:Name="_mainGrid" Width="100" Height="100">
+            <Border BorderThickness="{Binding OutlineThickness}" BorderBrush="{Binding OutlineBrush}" CornerRadius="{Binding ElementName=_mainGrid, Converter={StaticResource FindCenterCoordinate}}">
+                <Border.Clip>
+                    <PathGeometry>
+                        <PathGeometry.Figures>
+                            <PathFigureCollection>
+                                <PathFigure StartPoint="{Binding AngleSpan, Converter={StaticResource GaugeAngleToPoint}, ConverterParameter=left}">
+                                    <PathFigure.Segments>
+                                        <PathSegmentCollection>
+                                            <ArcSegment Size="{Binding ElementName=_mainGrid, Converter={StaticResource FindCenterAsSize}}" IsLargeArc="{Binding AngleSpan, Converter={StaticResource GaugeAngleToLargeArc}}" SweepDirection="Clockwise" Point="{Binding AngleSpan, Converter={StaticResource GaugeAngleToPoint}, ConverterParameter=right}" />
+                                            <LineSegment Point="{Binding ElementName=_mainGrid, Converter={StaticResource FindCenterPoint}}" />
+                                        </PathSegmentCollection>
+                                    </PathFigure.Segments>
+                                </PathFigure>
+                            </PathFigureCollection>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Border.Clip>
+            </Border>
+            <Grid x:Name="_graduationsGrid" />
+            <ContentControl x:Name="_needle" Content="{Binding NeedleControlElement}">
+                <ContentControl.RenderTransform>
+                    <RotateTransform CenterX="{Binding ElementName=_mainGrid, Converter={StaticResource FindCenterCoordinate}, ConverterParameter=x}" CenterY="{Binding ElementName=_mainGrid, Converter={StaticResource FindCenterCoordinate}, ConverterParameter=y}" Angle="{Binding NeedleAngle}" />
+                </ContentControl.RenderTransform>
+            </ContentControl>
+        </Grid>
+    </Viewbox>
+</UserControl>
