@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BasicPerformanceGauges"
         xmlns:analog="clr-namespace:WPFGauges.Analog;assembly=WPFGauges"
+        xmlns:level="clr-namespace:WPFGauges.Level;assembly=WPFGauges"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
@@ -19,8 +20,9 @@
             <Setter Property="GraduationThickness" Value="0.5" />
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
@@ -62,6 +64,14 @@
             </Grid.RowDefinitions>
             <analog:AnalogGauge x:Name="_diskBytesGauge" Style="{StaticResource PercentGaugeStyle}" LabelLeveling="Leveled" LabelInterval="1" />
             <TextBlock Text="Disk bytes/sec" Grid.Row="1" HorizontalAlignment="Center" FontSize="20" />
+        </Grid>
+        <Grid Grid.Column="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".92*" />
+                <RowDefinition Height=".08*" />
+            </Grid.RowDefinitions>
+            <level:LevelGauge Name="_cpuUsageLevel" Margin="10" Pitch="2" OutlineThickness=".25" LevelWidth="5" GraduationThickness=".25" LabelInterval="5" GraduationStartSide="Right" AlternateGraduations="True"  />
+            <TextBlock Text="CPU Usage Level" Grid.Row="1" HorizontalAlignment="Center" FontSize="20" />
         </Grid>
     </Grid>
 </Window>

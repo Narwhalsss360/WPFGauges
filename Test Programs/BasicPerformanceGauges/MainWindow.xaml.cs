@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media.Animation;
 using WPFGauges.Analog;
 using WPFGauges.Data;
+using WPFGauges.Level;
 
 namespace BasicPerformanceGauges;
 
@@ -12,7 +13,7 @@ namespace BasicPerformanceGauges;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public static readonly int REFRESH_RATE = 15;
+    public static readonly int REFRESH_RATE = 5;
 
     public static readonly TimeSpan REFRESH_INTERVAL = TimeSpan.FromMilliseconds(1000.0 / REFRESH_RATE);
 
@@ -35,6 +36,7 @@ public partial class MainWindow : Window
             _refreshTimerGauge.Value = _refreshTimerGauge.Value == _refreshTimerGauge.Minimum ? _refreshTimerGauge.Maximum : _refreshTimerGauge.Minimum;
         }));
 
+        _cpuUsageLevel.Animator = (from, to) => _animator(from, to);
         Task[] setups =
         {
             Task.Run(() =>
@@ -42,7 +44,11 @@ public partial class MainWindow : Window
                 AnalogGauge gauge = _cpuUsageGauge;
                 RollingAverage rollingAverage = new(REFRESH_RATE / 2);
                 PerformanceCounter counter = new("Processor", "% Processor Time", "_Total");
-                SetupPercentGauge(gauge, () => Dispatcher.Invoke(() => gauge.Value = rollingAverage.Next(counter.NextValue())));
+                SetupPercentGauge(gauge, () => Dispatcher.Invoke(() =>
+                {
+                    gauge.Value = rollingAverage.Next(counter.NextValue());
+                    _cpuUsageLevel.Value = rollingAverage.Current;
+                }));
             }),
             Task.Run(() =>
             {

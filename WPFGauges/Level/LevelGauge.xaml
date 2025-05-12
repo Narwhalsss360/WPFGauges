@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="WPFGauges.Level.LevelGauge"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPFGauges.Level"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:LevelGauge, IsDesignTimeCreatable=True}"
+             d:DesignHeight="100" d:DesignWidth="30">
+    <Viewbox Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid Width="30" Height="100">
+            <Grid x:Name="_graduationsGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="{Binding LevelWidth}" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Border x:Name="_levelBorder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="{Binding LevelWidth}" Height="{Binding Level}" BorderThickness="{Binding OutlineThickness}" Background="Red" />
+            <Border Width="{Binding LevelWidth}" BorderThickness="{Binding OutlineThickness}" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="{Binding OutlineBrush}" />
+        </Grid>
+    </Viewbox>
+</UserControl>
