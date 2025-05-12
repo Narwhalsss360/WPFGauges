@@ -25,9 +25,11 @@
             }
         }
 
+        private double _current;
+
         public double Current
         {
-            get => Averager(_values.Take(_filled));
+            get => _current;
         }
 
         public AverageFunction Averager { get; set; } = Enumerable.Average;
@@ -51,7 +53,8 @@
             if (_filled != _values.Length)
                 _filled++;
             _position %= AverageCount;
-            return Current;
+            _current = Averager(_values.Take(_filled));
+            return _current;
         }
     }
 }
