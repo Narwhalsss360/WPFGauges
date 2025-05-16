@@ -35,13 +35,13 @@ namespace WPFGauges.Bubble
 
         public static readonly BubbleAnimationGenerator DEFAULT_ANIMATOR = (from, to) => new(from, to, TimeSpan.Zero);
 
-        public static readonly DependencyProperty BubbleGaugeBackgroundProperty = RegisterProperty(nameof(BubbleGaugeBackground), DEFAULT_BUBBLE_GAUGE_BACKGROUND);
+        public static readonly DependencyProperty BubbleGaugeBackgroundProperty = DP.RegisterProperty<LevelBubbleGauge>(nameof(BubbleGaugeBackground), DEFAULT_BUBBLE_GAUGE_BACKGROUND);
 
-        public static readonly DependencyProperty ValueProperty = RegisterProperty(nameof(Value), DEFAULT_VALUE);
+        public static readonly DependencyProperty ValueProperty = DP.RegisterProperty<LevelBubbleGauge>(nameof(Value), DEFAULT_VALUE);
 
-        public static readonly DependencyProperty BubbleTranslateProperty = RegisterProperty(nameof(BubbleTranslate), DEFAULT_BUBBLE_TRANSLATE);
+        public static readonly DependencyProperty BubbleTranslateProperty = DP.RegisterProperty<LevelBubbleGauge>(nameof(BubbleTranslate), DEFAULT_BUBBLE_TRANSLATE);
 
-        public static readonly DependencyProperty AnimatorProperty = RegisterProperty(nameof(Animator), DEFAULT_ANIMATOR);
+        public static readonly DependencyProperty AnimatorProperty = DP.RegisterProperty<LevelBubbleGauge>(nameof(Animator), DEFAULT_ANIMATOR);
 
         readonly LinearMap _translateMap = new(new(-1, 1), new(-(GAUGE_HORIZONTAL_CENTER - BUBBLE_RADIUS), GAUGE_HORIZONTAL_CENTER - BUBBLE_RADIUS));
 
@@ -86,20 +86,6 @@ namespace WPFGauges.Bubble
                 HandoffBehavior.SnapshotAndReplace
             );
             return value;
-        }
-
-        private static DependencyProperty RegisterProperty(string name)
-        {
-            PropertyInfo property = typeof(LevelBubbleGauge).GetProperty(name)!;
-            Debug.Assert(property is not null);
-            return DependencyProperty.Register(name, property.PropertyType, typeof(LevelBubbleGauge));
-        }
-
-        private static DependencyProperty RegisterProperty(string name, object defaultValue)
-        {
-            PropertyInfo property = typeof(LevelBubbleGauge).GetProperty(name)!;
-            Debug.Assert(property is not null);
-            return DependencyProperty.Register(name, property.PropertyType, typeof(LevelBubbleGauge), new PropertyMetadata(defaultValue));
         }
     }
 }

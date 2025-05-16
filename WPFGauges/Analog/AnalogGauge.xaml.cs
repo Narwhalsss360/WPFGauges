@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPFGauges.Bubble;
 using WPFGauges.Data;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -81,39 +82,39 @@ namespace WPFGauges.Analog
             }
         };
 
-        public static readonly DependencyProperty MinimumProperty = RegisterProperty(nameof(Minimum), DEFAULT_MINIMUM);
+        public static readonly DependencyProperty MinimumProperty = DP.RegisterProperty<AnalogGauge>(nameof(Minimum), DEFAULT_MINIMUM);
 
-        public static readonly DependencyProperty MaximumProperty = RegisterProperty(nameof(Maximum), DEFAULT_MAXIMUM);
+        public static readonly DependencyProperty MaximumProperty = DP.RegisterProperty<AnalogGauge>(nameof(Maximum), DEFAULT_MAXIMUM);
 
-        public static readonly DependencyProperty AngleSpanProperty = RegisterProperty(nameof(AngleSpan), DEFAULT_ANGLE_SPAN);
+        public static readonly DependencyProperty AngleSpanProperty = DP.RegisterProperty<AnalogGauge>(nameof(AngleSpan), DEFAULT_ANGLE_SPAN);
 
-        public static readonly DependencyProperty ValueProperty = RegisterProperty(nameof(Value), DEFAULT_VALUE);
+        public static readonly DependencyProperty ValueProperty = DP.RegisterProperty<AnalogGauge>(nameof(Value), DEFAULT_VALUE);
 
-        public static readonly DependencyProperty NeedleControlElementProperty = RegisterProperty(nameof(NeedleControlElement));
+        public static readonly DependencyProperty NeedleControlElementProperty = DP.RegisterProperty<AnalogGauge>(nameof(NeedleControlElement));
 
-        public static readonly DependencyProperty NeedleAngleProperty = RegisterProperty(nameof(NeedleAngle), DEFAULT_NEEDLE_ANGLE);
+        public static readonly DependencyProperty NeedleAngleProperty = DP.RegisterProperty<AnalogGauge>(nameof(NeedleAngle), DEFAULT_NEEDLE_ANGLE);
 
-        public static readonly DependencyProperty AnimatorProperty = RegisterProperty(nameof(Animator), DEFAULT_ANIMATOR);
+        public static readonly DependencyProperty AnimatorProperty = DP.RegisterProperty<AnalogGauge>(nameof(Animator), DEFAULT_ANIMATOR);
 
-        public static readonly DependencyProperty OutlineThicknessProperty = RegisterProperty(nameof(OutlineThickness), DEFAULT_OUTLINE_THICKNESS);
+        public static readonly DependencyProperty OutlineThicknessProperty = DP.RegisterProperty<AnalogGauge>(nameof(OutlineThickness), DEFAULT_OUTLINE_THICKNESS);
 
-        public static readonly DependencyProperty OutlineBrushProperty = RegisterProperty(nameof(OutlineBrush), DEFAULT_OUTLINE_BRUSH);
+        public static readonly DependencyProperty OutlineBrushProperty = DP.RegisterProperty<AnalogGauge>(nameof(OutlineBrush), DEFAULT_OUTLINE_BRUSH);
 
-        public static readonly DependencyProperty PitchProperty = RegisterProperty(nameof(Pitch), DEFAULT_PITCH);
+        public static readonly DependencyProperty PitchProperty = DP.RegisterProperty<AnalogGauge>(nameof(Pitch), DEFAULT_PITCH);
 
-        public static readonly DependencyProperty GraduationThicknessProperty = RegisterProperty(nameof(GraduationThickness), DEFAULT_GRADUATION_THICKNESS);
+        public static readonly DependencyProperty GraduationThicknessProperty = DP.RegisterProperty<AnalogGauge>(nameof(GraduationThickness), DEFAULT_GRADUATION_THICKNESS);
 
-        public static readonly DependencyProperty GraduationLengthProperty = RegisterProperty(nameof(GraduationLength), DEFAULT_GRADUATION_LENGTH);
+        public static readonly DependencyProperty GraduationLengthProperty = DP.RegisterProperty<AnalogGauge>(nameof(GraduationLength), DEFAULT_GRADUATION_LENGTH);
 
-        public static readonly DependencyProperty GraduationBrushProperty = RegisterProperty(nameof(GraduationBrush), DEFAULT_GRADUATION_BRUSH);
+        public static readonly DependencyProperty GraduationBrushProperty = DP.RegisterProperty<AnalogGauge>(nameof(GraduationBrush), DEFAULT_GRADUATION_BRUSH);
 
-        public static readonly DependencyProperty LabelIntervalProperty = RegisterProperty(nameof(LabelInterval), DEFAULT_LABEL_INTERVAL);
+        public static readonly DependencyProperty LabelIntervalProperty = DP.RegisterProperty<AnalogGauge>(nameof(LabelInterval), DEFAULT_LABEL_INTERVAL);
 
-        public static readonly DependencyProperty LabelIntervalOffsetProperty = RegisterProperty(nameof(LabelIntervalOffset), DEFAULT_LABEL_INTERVAL_OFFSET);
+        public static readonly DependencyProperty LabelIntervalOffsetProperty = DP.RegisterProperty<AnalogGauge>(nameof(LabelIntervalOffset), DEFAULT_LABEL_INTERVAL_OFFSET);
 
-        public static readonly DependencyProperty LabelLevelingProperty = RegisterProperty(nameof(LabelLeveling), DEFAULT_LABEL_LEVELING);
+        public static readonly DependencyProperty LabelLevelingProperty = DP.RegisterProperty<AnalogGauge>(nameof(LabelLeveling), DEFAULT_LABEL_LEVELING);
 
-        public static readonly DependencyProperty LabelStyleProperty = RegisterProperty(nameof(LabelStyle));
+        public static readonly DependencyProperty LabelStyleProperty = DP.RegisterProperty<AnalogGauge>(nameof(LabelStyle));
 
         public double Minimum
         {
@@ -458,20 +459,6 @@ namespace WPFGauges.Analog
                 HandoffBehavior.SnapshotAndReplace
             );
             return value;
-        }
-
-        private static DependencyProperty RegisterProperty(string name)
-        {
-            PropertyInfo property = typeof(AnalogGauge).GetProperty(name)!;
-            Debug.Assert(property is not null);
-            return DependencyProperty.Register(name, property.PropertyType, typeof(AnalogGauge));
-        }
-
-        private static DependencyProperty RegisterProperty(string name, object defaultValue)
-        {
-            PropertyInfo property = typeof(AnalogGauge).GetProperty(name)!;
-            Debug.Assert(property is not null);
-            return DependencyProperty.Register(name, property.PropertyType, typeof(AnalogGauge), new PropertyMetadata(defaultValue));
         }
     }
 }

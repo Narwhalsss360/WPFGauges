@@ -74,41 +74,41 @@ namespace WPFGauges.Level
 
         public static readonly double MAXIMUM_LEVEL = GAUGE_HEIGHT;
 
-        public static readonly DependencyProperty MinimumProperty = RegisterProperty(nameof(Minimum), DEFAULT_MINIMUM);
+        public static readonly DependencyProperty MinimumProperty = DP.RegisterProperty<LevelGauge>(nameof(Minimum), DEFAULT_MINIMUM);
 
-        public static readonly DependencyProperty MaximumProperty = RegisterProperty(nameof(Maximum), DEFAULT_MAXIMUM);
+        public static readonly DependencyProperty MaximumProperty = DP.RegisterProperty<LevelGauge>(nameof(Maximum), DEFAULT_MAXIMUM);
 
-        public static readonly DependencyProperty ValueProperty = RegisterProperty(nameof(Value), DEFAULT_VALUE);
+        public static readonly DependencyProperty ValueProperty = DP.RegisterProperty<LevelGauge>(nameof(Value), DEFAULT_VALUE);
 
-        public static readonly DependencyProperty LevelProperty = RegisterProperty(nameof(Level), DEFAULT_LEVEL);
+        public static readonly DependencyProperty LevelProperty = DP.RegisterProperty<LevelGauge>(nameof(Level), DEFAULT_LEVEL);
 
-        public static readonly DependencyProperty LevelWidthProperty = RegisterProperty(nameof(LevelWidth), DEFAULT_LEVEL_WIDTH);
+        public static readonly DependencyProperty LevelWidthProperty = DP.RegisterProperty<LevelGauge>(nameof(LevelWidth), DEFAULT_LEVEL_WIDTH);
 
-        public static readonly DependencyProperty OutlineThicknessProperty = RegisterProperty(nameof(OutlineThickness), DEFAULT_OUTLINE_THICKNESS);
+        public static readonly DependencyProperty OutlineThicknessProperty = DP.RegisterProperty<LevelGauge>(nameof(OutlineThickness), DEFAULT_OUTLINE_THICKNESS);
 
-        public static readonly DependencyProperty OutlineBrushProperty = RegisterProperty(nameof(OutlineBrush), DEFAULT_OUTLINE_BRUSH);
+        public static readonly DependencyProperty OutlineBrushProperty = DP.RegisterProperty<LevelGauge>(nameof(OutlineBrush), DEFAULT_OUTLINE_BRUSH);
 
-        protected static readonly DependencyProperty LevelMarginProperty = RegisterProperty(nameof(LevelMargin), DEFAULT_LEVEL_MARGIN);
+        protected static readonly DependencyProperty LevelMarginProperty = DP.RegisterProperty<LevelGauge>(nameof(LevelMargin), DEFAULT_LEVEL_MARGIN);
 
-        public static readonly DependencyProperty AnimatorProperty = RegisterProperty(nameof(Animator), DEFAULT_ANIMATOR);
+        public static readonly DependencyProperty AnimatorProperty = DP.RegisterProperty<LevelGauge>(nameof(Animator), DEFAULT_ANIMATOR);
 
-        public static readonly DependencyProperty PitchProperty = RegisterProperty(nameof(Pitch), DEFAULT_PITCH);
+        public static readonly DependencyProperty PitchProperty = DP.RegisterProperty<LevelGauge>(nameof(Pitch), DEFAULT_PITCH);
 
-        public static readonly DependencyProperty GraduationThicknessProperty = RegisterProperty(nameof(GraduationThickness), DEFAULT_GRADUATION_THICKNESS);
+        public static readonly DependencyProperty GraduationThicknessProperty = DP.RegisterProperty<LevelGauge>(nameof(GraduationThickness), DEFAULT_GRADUATION_THICKNESS);
 
-        public static readonly DependencyProperty GraduationLengthProperty = RegisterProperty(nameof(GraduationLength), DEFAULT_GRADUATION_LENGTH);
+        public static readonly DependencyProperty GraduationLengthProperty = DP.RegisterProperty<LevelGauge>(nameof(GraduationLength), DEFAULT_GRADUATION_LENGTH);
 
-        public static readonly DependencyProperty GraduationBrushProperty = RegisterProperty(nameof(GraduationBrush), DEFAULT_GRADUATION_BRUSH);
+        public static readonly DependencyProperty GraduationBrushProperty = DP.RegisterProperty<LevelGauge>(nameof(GraduationBrush), DEFAULT_GRADUATION_BRUSH);
         
-        public static readonly DependencyProperty GraduationStartSideProperty = RegisterProperty(nameof(GraduationStartSide), DEFAULT_GRADUATION_START_SIDE);
+        public static readonly DependencyProperty GraduationStartSideProperty = DP.RegisterProperty<LevelGauge>(nameof(GraduationStartSide), DEFAULT_GRADUATION_START_SIDE);
 
-        public static readonly DependencyProperty AlternateGraduationsProperty = RegisterProperty(nameof(AlternateGraduations), DEFAULT_ALTERNATE_GRADUATIONS);
+        public static readonly DependencyProperty AlternateGraduationsProperty = DP.RegisterProperty<LevelGauge>(nameof(AlternateGraduations), DEFAULT_ALTERNATE_GRADUATIONS);
 
-        public static readonly DependencyProperty LabelIntervalProperty = RegisterProperty(nameof(LabelInterval), DEFAULT_LABEL_INTERVAL);
+        public static readonly DependencyProperty LabelIntervalProperty = DP.RegisterProperty<LevelGauge>(nameof(LabelInterval), DEFAULT_LABEL_INTERVAL);
 
-        public static readonly DependencyProperty LabelIntervalOffsetProperty = RegisterProperty(nameof(LabelIntervalOffset), DEFAULT_LABEL_INTERVAL_OFFSET);
+        public static readonly DependencyProperty LabelIntervalOffsetProperty = DP.RegisterProperty<LevelGauge>(nameof(LabelIntervalOffset), DEFAULT_LABEL_INTERVAL_OFFSET);
 
-        public static readonly DependencyProperty LabelStyleProperty = RegisterProperty(nameof(LabelStyle));
+        public static readonly DependencyProperty LabelStyleProperty = DP.RegisterProperty<LevelGauge>(nameof(LabelStyle));
 
         public double Minimum
         {
@@ -423,19 +423,5 @@ namespace WPFGauges.Level
 
         private static Thickness LevelMarginForOutlineThickness(double thickness)
             => new(0, 0, 0, thickness);
-
-        private static DependencyProperty RegisterProperty(string name)
-        {
-            PropertyInfo property = typeof(LevelGauge).GetProperty(name)!;
-            Debug.Assert(property is not null);
-            return DependencyProperty.Register(name, property.PropertyType, typeof(LevelGauge));
-        }
-
-        private static DependencyProperty RegisterProperty(string name, object defaultValue)
-        {
-            PropertyInfo property = typeof(LevelGauge).GetProperty(name)!;
-            Debug.Assert(property is not null);
-            return DependencyProperty.Register(name, property.PropertyType, typeof(LevelGauge), new PropertyMetadata(defaultValue));
-        }
     }
 }
