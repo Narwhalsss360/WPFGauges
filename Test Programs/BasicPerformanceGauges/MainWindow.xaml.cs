@@ -13,7 +13,7 @@ namespace BasicPerformanceGauges;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public static readonly int REFRESH_RATE = 5;
+    public static readonly int REFRESH_RATE = 2;
 
     public static readonly TimeSpan REFRESH_INTERVAL = TimeSpan.FromMilliseconds(1000.0 / REFRESH_RATE);
 
@@ -35,6 +35,7 @@ public partial class MainWindow : Window
         {
             _refreshTimerGauge.Value = _refreshTimerGauge.Value == _refreshTimerGauge.Minimum ? _refreshTimerGauge.Maximum : _refreshTimerGauge.Minimum;
         }));
+        SetupBubbleRefreshTimerGauge();
 
         _cpuUsageLevel.Animator = (from, to) => _animator(from, to);
         Task[] setups =
@@ -75,6 +76,12 @@ public partial class MainWindow : Window
             _refreshTimer.Start();
         });
         _refreshTimer.Elapsed += RefreshTimerElapsed;
+    }
+
+    private void SetupBubbleRefreshTimerGauge()
+    {
+        _refreshTimerBubble.Animator = (from, to) => _animator(from, to);
+        _gaugeUpdateActions.Add(() => Dispatcher.Invoke(() => _refreshTimerBubble.Value = _refreshTimerBubble.Value == -1 ? 1 : -1));
     }
 
     private void RefreshTimerElapsed(object? sender, ElapsedEventArgs e)

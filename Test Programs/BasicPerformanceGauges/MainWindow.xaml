@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:BasicPerformanceGauges"
         xmlns:analog="clr-namespace:WPFGauges.Analog;assembly=WPFGauges"
         xmlns:level="clr-namespace:WPFGauges.Level;assembly=WPFGauges"
+        xmlns:bubble="clr-namespace:WPFGauges.Bubble;assembly=WPFGauges"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
@@ -30,7 +31,8 @@
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height=".92*" />
+                <RowDefinition Height=".47*" />
+                <RowDefinition Height=".47*" />
                 <RowDefinition Height=".08*" />
             </Grid.RowDefinitions>
             <analog:AnalogGauge
@@ -39,7 +41,8 @@
                 Maximum="1"
                 AngleSpan="90"
                 Value="0" />
-            <TextBlock Text="Refresh Timer" Grid.Row="1" HorizontalAlignment="Center" FontSize="20" />
+            <bubble:LevelBubbleGauge x:Name="_refreshTimerBubble" Value="-1" Grid.Row="1" />
+            <TextBlock Text="Refresh Timer" Grid.Row="2" HorizontalAlignment="Center" FontSize="20" />
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
