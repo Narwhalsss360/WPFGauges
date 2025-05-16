@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using WPFGauges.Animations;
 using WPFGauges.Data;
 
 namespace WPFGauges.Level
@@ -16,8 +17,6 @@ namespace WPFGauges.Level
     /// </summary>
     public partial class LevelGauge : UserControl
     {
-        public delegate DoubleAnimation LevelAnimationGenerator(double from, double to);
-
         public static readonly double GAUGE_HEIGHT = 100;
 
         public static readonly double GAUGE_WIDTH = 30;
@@ -42,7 +41,7 @@ namespace WPFGauges.Level
 
         protected static readonly Thickness DEFAULT_LEVEL_MARGIN = LevelMarginForOutlineThickness(DEFAULT_OUTLINE_THICKNESS);
 
-        public static readonly LevelAnimationGenerator DEFAULT_ANIMATOR = (from, to) => new(from, to, TimeSpan.Zero);
+        public static readonly DoubleAnimationGenerator DEFAULT_ANIMATOR = (from, to) => new(from, to, TimeSpan.Zero);
 
         public static readonly double DEFAULT_PITCH = 0;
 
@@ -171,9 +170,9 @@ namespace WPFGauges.Level
             protected set => SetValue(LevelMarginProperty, value);
         }
 
-        public LevelAnimationGenerator Animator
+        public DoubleAnimationGenerator Animator
         {
-            get => (LevelAnimationGenerator)GetValue(AnimatorProperty);
+            get => (DoubleAnimationGenerator)GetValue(AnimatorProperty);
             set => SetValue(AnimatorProperty, value);
         }
 

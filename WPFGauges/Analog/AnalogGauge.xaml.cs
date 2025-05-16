@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPFGauges.Animations;
 using WPFGauges.Bubble;
 using WPFGauges.Data;
 using static System.Net.Mime.MediaTypeNames;
@@ -26,8 +27,6 @@ namespace WPFGauges.Analog
     /// </summary>
     public partial class AnalogGauge : UserControl
     {
-        public delegate DoubleAnimation NeedleAngleAnimatorGenerator(double from, double to);
-
         public static readonly double GAUGE_SIZE = 100;
 
         public static readonly double GAUGE_CENTER = 50;
@@ -52,7 +51,7 @@ namespace WPFGauges.Analog
 
         public static readonly double DEFAULT_NEEDLE_ANGLE = new LinearMap(new(DEFAULT_MINIMUM, DEFAULT_MAXIMUM), new(DEFAULT_MINIMUM_ANGLE, DEFAULT_MAXIMUM_ANGLE)).Map(DEFAULT_VALUE);
 
-        public static readonly NeedleAngleAnimatorGenerator DEFAULT_ANIMATOR = (from, to) => new(from, to, TimeSpan.Zero);
+        public static readonly DoubleAnimationGenerator DEFAULT_ANIMATOR = (from, to) => new(from, to, TimeSpan.Zero);
 
         public static readonly double DEFAULT_OUTLINE_THICKNESS = 1;
 
@@ -172,9 +171,9 @@ namespace WPFGauges.Analog
             set => SetValue(NeedleAngleProperty, value);
         }
 
-        public NeedleAngleAnimatorGenerator Animator
+        public DoubleAnimationGenerator Animator
         {
-            get => (NeedleAngleAnimatorGenerator)GetValue(AnimatorProperty);
+            get => (DoubleAnimationGenerator)GetValue(AnimatorProperty);
             set => SetValue(AnimatorProperty, value);
         }
 
@@ -367,16 +366,16 @@ namespace WPFGauges.Analog
             SetValue(ValueProperty, value);
         }
 
-        public T AnimateWith<T>(NeedleAngleAnimatorGenerator generator, Func<T> action)
+        public T AnimateWith<T>(DoubleAnimationGenerator generator, Func<T> action)
         {
-            NeedleAngleAnimatorGenerator old = Animator;
+            DoubleAnimationGenerator old = Animator;
             Animator = generator;
             T result = action();
             Animator = old;
             return result;
         }
 
-        public void AnimateWith(NeedleAngleAnimatorGenerator generator, Action action) => AnimateWith<object?>(generator, () => { action(); return null; });
+        public void AnimateWith(DoubleAnimationGenerator generator, Action action) => AnimateWith<object?>(generator, () => { action(); return null; });
 
         private void ApplyGraduationProperties(Graduation graduation, int index)
         {

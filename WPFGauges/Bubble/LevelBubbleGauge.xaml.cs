@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using WPFGauges.Animations;
 using WPFGauges.Data;
 
 namespace WPFGauges.Bubble
@@ -13,8 +14,6 @@ namespace WPFGauges.Bubble
     /// </summary>
     public partial class LevelBubbleGauge : UserControl
     {
-        public delegate DoubleAnimation BubbleAnimationGenerator(double from, double to);
-
         public static readonly double GAUGE_WIDTH = 160;
 
         public static readonly double GAUGE_HEIGHT = 40;
@@ -33,7 +32,7 @@ namespace WPFGauges.Bubble
 
         public static readonly double DEFAULT_BUBBLE_TRANSLATE = LinearMap.Map(-1, 1, -(GAUGE_HORIZONTAL_CENTER - BUBBLE_RADIUS), GAUGE_HORIZONTAL_CENTER - BUBBLE_RADIUS, DEFAULT_VALUE);
 
-        public static readonly BubbleAnimationGenerator DEFAULT_ANIMATOR = (from, to) => new(from, to, TimeSpan.Zero);
+        public static readonly DoubleAnimationGenerator DEFAULT_ANIMATOR = (from, to) => new(from, to, TimeSpan.Zero);
 
         public static readonly DependencyProperty BubbleGaugeBackgroundProperty = DP.RegisterProperty<LevelBubbleGauge>(nameof(BubbleGaugeBackground), DEFAULT_BUBBLE_GAUGE_BACKGROUND);
 
@@ -63,9 +62,9 @@ namespace WPFGauges.Bubble
             protected set => SetValue(BubbleTranslateProperty, value);
         }
 
-        public BubbleAnimationGenerator Animator
+        public DoubleAnimationGenerator Animator
         {
-            get => (BubbleAnimationGenerator)GetValue(AnimatorProperty);
+            get => (DoubleAnimationGenerator)GetValue(AnimatorProperty);
             set => SetValue(AnimatorProperty, value);
         }
 

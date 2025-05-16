@@ -3,6 +3,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Media.Animation;
 using WPFGauges.Analog;
+using WPFGauges.Animations;
 using WPFGauges.Data;
 using WPFGauges.Level;
 
@@ -23,7 +24,7 @@ public partial class MainWindow : Window
 
     bool _updating = false;
 
-    AnalogGauge.NeedleAngleAnimatorGenerator _animator = (from, to) => new(from, to, REFRESH_INTERVAL);
+    DoubleAnimationGenerator _animator = (from, to) => new(from, to, REFRESH_INTERVAL);
 
     Func<double, string> _percentGaugeFormatter = (double value) => $"{value}%";
 
@@ -37,7 +38,7 @@ public partial class MainWindow : Window
         }));
         SetupBubbleRefreshTimerGauge();
 
-        _cpuUsageLevel.Animator = (from, to) => _animator(from, to);
+        _cpuUsageLevel.Animator = _animator;
         Task[] setups =
         {
             Task.Run(() =>
@@ -80,7 +81,7 @@ public partial class MainWindow : Window
 
     private void SetupBubbleRefreshTimerGauge()
     {
-        _refreshTimerBubble.Animator = (from, to) => _animator(from, to);
+        _refreshTimerBubble.Animator = _animator;
         _gaugeUpdateActions.Add(() => Dispatcher.Invoke(() => _refreshTimerBubble.Value = _refreshTimerBubble.Value == -1 ? 1 : -1));
     }
 
