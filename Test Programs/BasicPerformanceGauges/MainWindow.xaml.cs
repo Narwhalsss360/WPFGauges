@@ -24,7 +24,9 @@ public partial class MainWindow : Window
 
     bool _updating = false;
 
-    DoubleAnimationGenerator _animator = (from, to) => new(from, to, REFRESH_INTERVAL);
+    DoubleAnimationGenerator _doubleAnimator = (from, to) => new(from, to, REFRESH_INTERVAL);
+
+    ThicknessAnimationGenerator _thicknessAnimator = (from, to) => new(from, to, REFRESH_INTERVAL);
 
     Func<double, string> _percentGaugeFormatter = (double value) => $"{value}%";
 
@@ -38,7 +40,7 @@ public partial class MainWindow : Window
         }));
         SetupBubbleRefreshTimerGauge();
 
-        _cpuUsageLevel.Animator = _animator;
+        _cpuUsageLevel.Animator = _doubleAnimator;
         Task[] setups =
         {
             Task.Run(() =>
@@ -50,6 +52,7 @@ public partial class MainWindow : Window
                 {
                     gauge.Value = rollingAverage.Next(counter.NextValue());
                     _cpuUsageLevel.Value = rollingAverage.Current;
+                    _cpuUsageTape.Value = rollingAverage.Current;
                 }));
             }),
             Task.Run(() =>
@@ -77,11 +80,13 @@ public partial class MainWindow : Window
             _refreshTimer.Start();
         });
         _refreshTimer.Elapsed += RefreshTimerElapsed;
+
+        _cpuUsageTape.Animator = _thicknessAnimator;
     }
 
     private void SetupBubbleRefreshTimerGauge()
     {
-        _refreshTimerBubble.Animator = _animator;
+        _refreshTimerBubble.Animator = _doubleAnimator;
         _gaugeUpdateActions.Add(() => Dispatcher.Invoke(() => _refreshTimerBubble.Value = _refreshTimerBubble.Value == -1 ? 1 : -1));
     }
 
@@ -99,7 +104,7 @@ public partial class MainWindow : Window
     {
         Action setup = () =>
         {
-            gauge.Animator = _animator;
+            gauge.Animator = _doubleAnimator;
             _gaugeUpdateActions.Add(updateAction);
         };
 
@@ -113,7 +118,7 @@ public partial class MainWindow : Window
     {
         Action setup = () =>
         {
-            gauge.Animator = _animator;
+            gauge.Animator = _doubleAnimator;
             gauge.LabelFormatter = _percentGaugeFormatter;
             _gaugeUpdateActions.Add(updateAction);
         };
@@ -128,7 +133,7 @@ public partial class MainWindow : Window
     {
         Action setup = () =>
         {
-            gauge.Animator = _animator;
+            gauge.Animator = _doubleAnimator;
             _gaugeUpdateActions.Add(() =>
             {
                 double value = updateAction();

@@ -7,6 +7,7 @@
         xmlns:analog="clr-namespace:WPFGauges.Analog;assembly=WPFGauges"
         xmlns:level="clr-namespace:WPFGauges.Level;assembly=WPFGauges"
         xmlns:bubble="clr-namespace:WPFGauges.Bubble;assembly=WPFGauges"
+        xmlns:tape="clr-namespace:WPFGauges.Tape;assembly=WPFGauges"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
@@ -23,6 +24,7 @@
     </Window.Resources>
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
@@ -74,6 +76,14 @@
                 <RowDefinition Height=".08*" />
             </Grid.RowDefinitions>
             <level:LevelGauge Name="_cpuUsageLevel" Margin="10" Pitch="2" OutlineThickness=".25" LevelWidth="5" GraduationThickness=".25" LabelInterval="5" GraduationStartSide="Right" AlternateGraduations="True"  />
+            <TextBlock Text="CPU Usage Level" Grid.Row="1" HorizontalAlignment="Center" FontSize="20" />
+        </Grid>
+        <Grid Grid.Column="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".92*" />
+                <RowDefinition Height=".08*" />
+            </Grid.RowDefinitions>
+            <tape:TapeGauge x:Name="_cpuUsageTape"  />
             <TextBlock Text="CPU Usage Level" Grid.Row="1" HorizontalAlignment="Center" FontSize="20" />
         </Grid>
     </Grid>
