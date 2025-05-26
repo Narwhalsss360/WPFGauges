@@ -14,7 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPFGauges.Animations;
 using WPFGauges.Data;
-using WPFGauges.Level;
 
 namespace WPFGauges.Tape
 {
@@ -307,9 +306,9 @@ namespace WPFGauges.Tape
             double value = LinearMap.Map(0, _graduations.Count - 1, Maximum, Minimum, index);
             if (!_tapeStack.Children.Contains(graduation.Dock))
                 _tapeStack.Children.Add(graduation.Dock);
-            
-            graduation.Line.HorizontalAlignment = GraduationSide == Side.Left ? HorizontalAlignment.Left : HorizontalAlignment.Right;
-            DockPanel.SetDock(graduation.Line, GraduationSide == Side.Left ? Dock.Left : Dock.Right);
+
+            graduation.Line.HorizontalAlignment = GraduationSide.GetHorizontalAlignment();
+            DockPanel.SetDock(graduation.Line, GraduationSide.GetDock());
 
             if (LabelInterval != 0 && (index - LabelIntervalOffset) % LabelInterval == 0)
             {
@@ -317,7 +316,7 @@ namespace WPFGauges.Tape
                 if (!graduation.Dock.Children.Contains(graduation.Label))
                 {
                     graduation.Dock.Children.Add(graduation.Label);
-                    DockPanel.SetDock(graduation.Label, GraduationSide == Side.Left ? Dock.Right : Dock.Left);
+                    DockPanel.SetDock(graduation.Label, GraduationSide.Other().GetDock());
                 }
             }
             else if (graduation.Dock.Children.Contains(graduation.Label))
