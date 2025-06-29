@@ -1,18 +1,12 @@
 ﻿namespace WPFGauges.Data
 {
-    public struct Interval
+    public struct Interval(double low, double high)
     {
-        public double Low;
+        public double Low = low;
 
-        public double High;
+        public double High = high;
 
-        public bool Degenerate { get => Low == High; }
-
-        public Interval(double low, double high)
-        {
-            Low = low;
-            High = high;
-        }
+        public readonly bool Degenerate { get => Low == High; }
 
         public Interval()
             : this(0, 0)

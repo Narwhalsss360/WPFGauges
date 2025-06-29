@@ -275,7 +275,7 @@ namespace WPFGauges.Level
             }
         }
 
-        LinearMap _linearMap = new();
+        readonly LinearMap _linearMap = new();
 
         LinearMap LevelMap
         {
@@ -333,7 +333,7 @@ namespace WPFGauges.Level
             }
         }
 
-        List<Graduation> _graduations = new();
+        readonly List<Graduation> _graduations = [];
 
         public LevelGauge()
         {
@@ -341,8 +341,7 @@ namespace WPFGauges.Level
             InitializeComponent();
             Loaded += (sender, e) =>
             {
-                if (LabelStyle is null)
-                    LabelStyle = DEFAULT_LABEL_STYLE_GENERATOR();
+                LabelStyle ??= DEFAULT_LABEL_STYLE_GENERATOR();
                 LevelMargin = LevelMarginForOutlineThickness(OutlineThickness);
                 ApplyLevel(BuildGraduations(Value));
             };

@@ -274,7 +274,7 @@ namespace WPFGauges.Analog
             get => Math.Min(Pitch == 0 ? 0 : (int)Math.Ceiling((Maximum - Minimum) / Pitch) + 1, 100);
         }
 
-        LinearMap _linearMap = new();
+        readonly LinearMap _linearMap = new();
 
         LinearMap NeedleAngleMap
         {
@@ -327,7 +327,7 @@ namespace WPFGauges.Analog
             }
         }
 
-        private List<Graduation> _graduations = new();
+        private readonly List<Graduation> _graduations = [];
 
         public AnalogGauge()
         {
@@ -335,10 +335,8 @@ namespace WPFGauges.Analog
             InitializeComponent();
             Loaded += (sender, e) =>
             {
-                if (NeedleControlElement is null)
-                    NeedleControlElement = DEFAULT_NEEDLE_CONTROL_GENERATOR();
-                if (LabelStyle is null)
-                    LabelStyle = DEFAULT_LABEL_STYLE_GENERATOR();
+                NeedleControlElement ??= DEFAULT_NEEDLE_CONTROL_GENERATOR();
+                LabelStyle ??= DEFAULT_LABEL_STYLE_GENERATOR();
                 ApplyNeedleAngle(BuildGraduations(Value));
             };
         }

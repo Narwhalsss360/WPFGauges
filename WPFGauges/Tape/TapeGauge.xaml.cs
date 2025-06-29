@@ -220,7 +220,7 @@ namespace WPFGauges.Tape
             }
         }
 
-        LinearMap _linearMap = new();
+        readonly LinearMap _linearMap = new();
 
         LinearMap TopMarginMap
         {
@@ -254,9 +254,10 @@ namespace WPFGauges.Tape
             {
                 Dock = new();
                 Label = new();
-                Line = new();
-
-                Line.VerticalAlignment = VerticalAlignment.Center;
+                Line = new()
+                {
+                    VerticalAlignment = VerticalAlignment.Center
+                };
                 Line.SetBinding(Rectangle.FillProperty, new Binding(nameof(gauge.GraduationBrush)) { Source = gauge });
                 Line.SetBinding(WidthProperty, new Binding(nameof(gauge.GraduationWidth)) { Source = gauge });
                 Line.SetBinding(HeightProperty, new Binding(nameof(gauge.GraduationHeight)) { Source = gauge });
@@ -270,7 +271,7 @@ namespace WPFGauges.Tape
             }
         }
 
-        List<Graduation> _graduations = new();
+        readonly List<Graduation> _graduations = [];
 
         public TapeGauge()
         {
@@ -279,8 +280,7 @@ namespace WPFGauges.Tape
 
             Loaded += (sender, e) =>
             {
-                if (LabelStyle is null)
-                    LabelStyle = DEFAULT_LABEL_STYLE_GENERATOR();
+                LabelStyle ??= DEFAULT_LABEL_STYLE_GENERATOR();
                 BuildGraduations();
                 ApplyValue(Value);
             };

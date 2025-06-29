@@ -14,7 +14,7 @@ namespace WPFGauges.Converters
 
             string prepared = (parameter as string)?.Trim().ToLower() ?? "";
             bool actual = prepared.StartsWith("actual");
-            bool y = prepared.EndsWith("y");
+            bool y = prepared.EndsWith('y');
 
 
             return (

@@ -18,17 +18,17 @@ public partial class MainWindow : Window
 
     public static readonly TimeSpan REFRESH_INTERVAL = TimeSpan.FromMilliseconds(1000.0 / REFRESH_RATE);
 
-    System.Timers.Timer _refreshTimer = new(REFRESH_INTERVAL.TotalMilliseconds) { AutoReset = true };
+    readonly System.Timers.Timer _refreshTimer = new(REFRESH_INTERVAL.TotalMilliseconds) { AutoReset = true };
 
-    List<Action> _gaugeUpdateActions = new();
+    readonly List<Action> _gaugeUpdateActions = [];
 
     bool _updating = false;
 
-    DoubleAnimationGenerator _doubleAnimator = (from, to) => new(from, to, REFRESH_INTERVAL);
+    readonly DoubleAnimationGenerator _doubleAnimator = (from, to) => new(from, to, REFRESH_INTERVAL);
 
-    ThicknessAnimationGenerator _thicknessAnimator = (from, to) => new(from, to, REFRESH_INTERVAL);
+    readonly ThicknessAnimationGenerator _thicknessAnimator = (from, to) => new(from, to, REFRESH_INTERVAL);
 
-    Func<double, string> _percentGaugeFormatter = (double value) => $"{value}%";
+    readonly Func<double, string> _percentGaugeFormatter = (double value) => $"{value}%";
 
     public MainWindow()
     {
@@ -42,7 +42,7 @@ public partial class MainWindow : Window
 
         _cpuUsageLevel.Animator = _doubleAnimator;
         Task[] setups =
-        {
+        [
             Task.Run(() =>
             {
                 AnalogGauge gauge = _cpuUsageGauge;
@@ -69,7 +69,7 @@ public partial class MainWindow : Window
                 PerformanceCounter counter = new("PhysicalDisk", "disk bytes/sec", "_total");
                 SetupSpeedGauge(gauge, () => rollingAverage.Next(counter.NextValue()));
             })
-        };
+        ];
 
         _diskBytesGauge.LabelFormatter = (double bytes) => $"{Math.Round(bytes / 1024)} KB";
         _diskBytesGauge.Animator = (from, to) => new(from, to, REFRESH_INTERVAL) { EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseOut, Exponent = 2 } };
@@ -102,11 +102,11 @@ public partial class MainWindow : Window
 
     private void SetupGauge(AnalogGauge gauge, Action updateAction)
     {
-        Action setup = () =>
+        void setup()
         {
             gauge.Animator = _doubleAnimator;
             _gaugeUpdateActions.Add(updateAction);
-        };
+        }
 
         if (CheckAccess())
             setup();
@@ -116,12 +116,12 @@ public partial class MainWindow : Window
 
     private void SetupPercentGauge(AnalogGauge gauge, Action updateAction)
     {
-        Action setup = () =>
+        void setup()
         {
             gauge.Animator = _doubleAnimator;
             gauge.LabelFormatter = _percentGaugeFormatter;
             _gaugeUpdateActions.Add(updateAction);
-        };
+        }
 
         if (CheckAccess())
             setup();
@@ -131,7 +131,7 @@ public partial class MainWindow : Window
 
     private void SetupSpeedGauge(AnalogGauge gauge, Func<double> updateAction)
     {
-        Action setup = () =>
+        void setup()
         {
             gauge.Animator = _doubleAnimator;
             _gaugeUpdateActions.Add(() =>
@@ -153,7 +153,7 @@ public partial class MainWindow : Window
                     gauge.Value = value;
                 });
             });
-        };
+        }
 
         if (CheckAccess())
             setup();
