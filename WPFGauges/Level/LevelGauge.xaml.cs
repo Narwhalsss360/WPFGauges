@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using System.Reflection.Metadata;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -98,7 +95,7 @@ namespace WPFGauges.Level
         public static readonly DependencyProperty GraduationLengthProperty = DP.RegisterProperty<LevelGauge>(nameof(GraduationLength), DEFAULT_GRADUATION_LENGTH);
 
         public static readonly DependencyProperty GraduationBrushProperty = DP.RegisterProperty<LevelGauge>(nameof(GraduationBrush), DEFAULT_GRADUATION_BRUSH);
-        
+
         public static readonly DependencyProperty GraduationStartSideProperty = DP.RegisterProperty<LevelGauge>(nameof(GraduationStartSide), DEFAULT_GRADUATION_START_SIDE);
 
         public static readonly DependencyProperty AlternateGraduationsProperty = DP.RegisterProperty<LevelGauge>(nameof(AlternateGraduations), DEFAULT_ALTERNATE_GRADUATIONS);
@@ -340,12 +337,12 @@ namespace WPFGauges.Level
 
         public LevelGauge()
         {
-            if (LabelStyle is null)
-                LabelStyle = DEFAULT_LABEL_STYLE_GENERATOR();
             DataContext = this;
             InitializeComponent();
             Loaded += (sender, e) =>
             {
+                if (LabelStyle is null)
+                    LabelStyle = DEFAULT_LABEL_STYLE_GENERATOR();
                 LevelMargin = LevelMarginForOutlineThickness(OutlineThickness);
                 ApplyLevel(BuildGraduations(Value));
             };

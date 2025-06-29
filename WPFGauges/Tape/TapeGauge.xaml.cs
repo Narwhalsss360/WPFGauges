@@ -255,7 +255,7 @@ namespace WPFGauges.Tape
                 Dock = new();
                 Label = new();
                 Line = new();
-                
+
                 Line.VerticalAlignment = VerticalAlignment.Center;
                 Line.SetBinding(Rectangle.FillProperty, new Binding(nameof(gauge.GraduationBrush)) { Source = gauge });
                 Line.SetBinding(WidthProperty, new Binding(nameof(gauge.GraduationWidth)) { Source = gauge });
@@ -274,13 +274,13 @@ namespace WPFGauges.Tape
 
         public TapeGauge()
         {
-            if (LabelStyle is null)
-                LabelStyle = DEFAULT_LABEL_STYLE_GENERATOR();
             DataContext = this;
             InitializeComponent();
 
             Loaded += (sender, e) =>
             {
+                if (LabelStyle is null)
+                    LabelStyle = DEFAULT_LABEL_STYLE_GENERATOR();
                 BuildGraduations();
                 ApplyValue(Value);
             };

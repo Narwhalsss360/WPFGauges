@@ -20,6 +20,15 @@
             <Setter Property="LabelInterval" Value="2" />
             <Setter Property="LabelLeveling" Value="AngledUpright" />
             <Setter Property="GraduationThickness" Value="0.5" />
+            <Setter Property="LabelStyle">
+                <Setter.Value>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="Purple" />
+                        <Setter Property="FontSize" Value="8" />
+                        <Setter Property="FontFamily" Value="Cascadia Code" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
     <Grid Margin="10">
@@ -51,7 +60,8 @@
                 <RowDefinition Height=".92*" />
                 <RowDefinition Height=".08*" />
             </Grid.RowDefinitions>
-            <analog:AnalogGauge x:Name="_cpuUsageGauge" Style="{StaticResource PercentGaugeStyle}" />
+            <analog:AnalogGauge x:Name="_cpuUsageGauge" Style="{StaticResource PercentGaugeStyle}">
+            </analog:AnalogGauge>
             <TextBlock Text="CPU Usage %" Grid.Row="1" HorizontalAlignment="Center" FontSize="20" />
         </Grid>
         <Grid Grid.Column="2">

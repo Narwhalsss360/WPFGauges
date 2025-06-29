@@ -1,24 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPFGauges.Animations;
-using WPFGauges.Bubble;
 using WPFGauges.Data;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WPFGauges.Analog
 {
@@ -344,13 +331,16 @@ namespace WPFGauges.Analog
 
         public AnalogGauge()
         {
-            if (NeedleControlElement is null)
-                NeedleControlElement = DEFAULT_NEEDLE_CONTROL_GENERATOR();
-            if (LabelStyle is null)
-                LabelStyle = DEFAULT_LABEL_STYLE_GENERATOR();
             DataContext = this;
             InitializeComponent();
-            Loaded += (sender, e) => ApplyNeedleAngle(BuildGraduations(Value));
+            Loaded += (sender, e) =>
+            {
+                if (NeedleControlElement is null)
+                    NeedleControlElement = DEFAULT_NEEDLE_CONTROL_GENERATOR();
+                if (LabelStyle is null)
+                    LabelStyle = DEFAULT_LABEL_STYLE_GENERATOR();
+                ApplyNeedleAngle(BuildGraduations(Value));
+            };
         }
 
         public void AnimateBreak(double value, SweepDirection direction)
